@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="/home/felix/AndroidStudioProjects/FirstOne/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jar="/home/felix/AndroidStudioProjects/Nifty-Notes/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
-        <dex dex="/home/felix/AndroidStudioProjects/FirstOne/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-1dd6b818f9a575771b4e68f9aceab1142c493b72.jar" />
-    </item>
-    <item
-        jar="/home/felix/AndroidStudioProjects/FirstOne/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="/home/felix/AndroidStudioProjects/FirstOne/app/build/intermediates/pre-dexed/debug/classes-e3a6ea156ceb71bcbab3e764ad238ac93d6ff5a0.jar" />
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/home/felix/AndroidStudioProjects/Nifty-Notes/app/build/intermediates/pre-dexed/debug/classes-222498dc2a8eb13748e8637f2bc0b2278d81e0ca.jar" />
     </item>
     <item
         jar="/home/felix/Desktop/SDK/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="/home/felix/AndroidStudioProjects/FirstOne/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-353c9986ef69282d15ac42dd21ca9143a5751750.jar" />
+        <dex dex="/home/felix/AndroidStudioProjects/Nifty-Notes/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-353c9986ef69282d15ac42dd21ca9143a5751750.jar" />
     </item>
     <item
-        jar="/home/felix/AndroidStudioProjects/FirstOne/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jar="/home/felix/AndroidStudioProjects/Nifty-Notes/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="/home/felix/AndroidStudioProjects/FirstOne/app/build/intermediates/pre-dexed/debug/classes-16944f9860c305f418f23848ae602ed265a98b42.jar" />
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/home/felix/AndroidStudioProjects/Nifty-Notes/app/build/intermediates/pre-dexed/debug/classes-192661ebe7c644a9a9b44282e89fa1ce60a61f82.jar" />
+    </item>
+    <item
+        jar="/home/felix/AndroidStudioProjects/Nifty-Notes/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/home/felix/AndroidStudioProjects/Nifty-Notes/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-7bab355a7dfb319130d4e2d362410878bc234312.jar" />
     </item>
 
 </items>
