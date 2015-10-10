@@ -1,11 +1,20 @@
 package com.example.felix.firstone;
 
 import android.app.Activity;
+import android.content.Context;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 import android.provider.MediaStore;
 import android.app.AlertDialog;
@@ -14,8 +23,13 @@ import android.content.DialogInterface;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-public class Hello extends Activity implements View.OnClickListener {
+public class Hello extends Activity implements View.OnClickListener
+{
 
+
+    ///////////////////////////////////
+    // Variables For Drawing
+    //////////////////////////////////
     //custom drawing view
     private DrawingView drawView;
     //buttons
@@ -23,8 +37,92 @@ public class Hello extends Activity implements View.OnClickListener {
     //sizes
     private float smallBrush, mediumBrush, largeBrush;
 
+    /////////////////////////////////
+    // Variables For Recording
+    ////////////////////////////////
+    private static final String LOG_TAG = "AudioRecordTest";
+    private static String mFileName = null;
+
+    private RecordButton mRecordButton = null;
+    private MediaRecorder mRecorder = null;
+
+    private PlayButton   mPlayButton = null;
+    private MediaPlayer   mPlayer = null;
+
+    // My Variables and Modifications
+    String fileForPhone = "test.3gp"; // This will save it in .3pg format.
+
+
+    //************************************
+    // Static Method's For Using The Audio
+    // ***********************************
+    private void onRecord(boolean start) {
+        if (start)
+        {
+            startRecording();
+        } else
+        {
+            stopRecording();
+        }
+    }
+
+    private void onPlay(boolean start)
+    {
+        if (start)
+        {
+            startPlaying();
+        }
+        else
+        {
+            stopPlaying();
+        }
+    }
+
+    private void startPlaying()
+    {
+        mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource(mFileName);
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "prepare() failed");
+        }
+    }
+
+    private void stopPlaying()
+    {
+        mPlayer.release();
+        mPlayer = null;
+    }
+
+    private void startRecording()
+    {
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(mFileName);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        try
+        {
+            mRecorder.prepare();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "prepare() failed");
+        }
+
+        mRecorder.start();
+    }
+
+    private void stopRecording()
+    {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hello);
 
@@ -59,6 +157,18 @@ public class Hello extends Activity implements View.OnClickListener {
         //save button
         saveBtn = (ImageButton)findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+        /////////////////////////////////////////////////////////////
+        // This is going to be creating or appending the directory...
+        //////////////////////////////////////////////////////////////
+        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFileName += "/audiorecordtest.3gp";
+
+        File folder = new File(Environment.getExternalStorageDirectory() + "/Nifty Notes");
+        boolean success = true;
+        if (!folder.exists())
+        {
+            success = folder.mkdir();
+        } // End of Creating The Directory.
     }
 
     @Override
@@ -196,7 +306,8 @@ public class Hello extends Activity implements View.OnClickListener {
                             getContentResolver(), drawView.getDrawingCache(),
                             UUID.randomUUID().toString()+".png", "drawing");
                     //feedback
-                    if(imgSaved!=null){
+                    if(imgSaved!=null)
+                    {
                         Toast savedToast = Toast.makeText(getApplicationContext(),
                                 "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
                         savedToast.show();
@@ -218,4 +329,101 @@ public class Hello extends Activity implements View.OnClickListener {
         }
     }
 
+    //***********************************************************************************
+    //*********************** The Creation Of Inner Classes for Audio Recording *********
+    //***********************************************************************************
+
+
+    ///////////////////////////////
+    // Class For The Record Button
+    //////////////////////////////
+    class RecordButton extends Button
+    {
+        boolean mStartRecording = true;
+
+        OnClickListener clicker = new OnClickListener()
+        {
+            public void onClick(View v) {
+                onRecord(mStartRecording);
+                if (mStartRecording)
+                {
+                    setText("Stop recording");
+                } else {
+                    setText("Start recording");
+                }
+                mStartRecording = !mStartRecording;
+            }
+        };
+
+        public RecordButton(Context ctx) {
+            super(ctx);
+            setText("Start recording");
+            setOnClickListener(clicker);
+        }
+    }
+
+    /////////////////////////////
+    // Class For The Play Button
+    ////////////////////////////
+    class PlayButton extends Button
+    {
+        boolean mStartPlaying = true;
+
+        OnClickListener clicker = new OnClickListener()
+        {
+            public void onClick(View v) {
+                onPlay(mStartPlaying);
+                if (mStartPlaying) {
+                    setText("Stop playing");
+                } else {
+                    setText("Start playing");
+                }
+                mStartPlaying = !mStartPlaying;
+            }
+        };
+
+        public PlayButton(Context ctx)
+        {
+            super(ctx);
+            setText("Start playing");
+            setOnClickListener(clicker);
+        }
+    }
+
+    //////////////////////////////////
+    // Traverse Through Files
+    ////////////////////////////////
+    public void traverse (File dir)
+    {
+        if (dir.exists())
+        {
+            File[] files = dir.listFiles();
+            for (int i = 0; i < files.length; ++i)
+            {
+                File file = files[i];
+                for(int index = 0; i < file.length(); index++)
+                {
+                    if(file.toString().contains("fer"))
+                    {
+                        // This is a Fer Note Audio File.
+                        //return true;
+                    }
+                }
+                if (file.isDirectory())
+                {
+                    traverse(file);
+                } else
+                {
+                    // do something here with the file
+                }
+            }
+
+            //return false;
+        }
+    }
+
+
+
 }
+
+

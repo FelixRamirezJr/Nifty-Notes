@@ -17,8 +17,8 @@ import android.util.TypedValue;
  * Created by felix on 10/1/15.
  */
 
-public class DrawingView extends View {
-
+public class DrawingView extends View
+{
     //drawing path
     private Path drawPath;
     //drawing and canvas paint
