@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -34,6 +35,7 @@ public class Hello extends Activity implements View.OnClickListener
     private DrawingView drawView;
     //buttons
     private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
+    private ImageButton recordBtn;
     //sizes
     private float smallBrush, mediumBrush, largeBrush;
 
@@ -51,6 +53,8 @@ public class Hello extends Activity implements View.OnClickListener
 
     // My Variables and Modifications
     String fileForPhone = "test.3gp"; // This will save it in .3pg format.
+
+    Boolean recordFlag = false;
 
 
     //************************************
@@ -120,6 +124,10 @@ public class Hello extends Activity implements View.OnClickListener
         mRecorder = null;
     }
 
+
+    //////////////////////////////////////////////////////////////////////////////////////
+    ////// The onCreate Method, In Which will Initialize all of the aspects of this app.
+    ////////////////////////////////////////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -157,11 +165,19 @@ public class Hello extends Activity implements View.OnClickListener
         //save button
         saveBtn = (ImageButton)findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+
+        // Setting Up the Record Button
+        recordBtn = (ImageButton)findViewById(R.id.record_btn);
+        recordBtn.setOnClickListener(this);
         /////////////////////////////////////////////////////////////
         // This is going to be creating or appending the directory...
         //////////////////////////////////////////////////////////////
+        String date = (DateFormat.format("dd-MM-yyyy hh:mm:ss", new java.util.Date()).toString()); // This will get the date and time..
+
+
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += "/audiorecordtest.3gp";
+        mFileName += "/audioNotes.3gp";
+       // mFileName += "/" + date + ".3pg"; // This is creating the File name with the Time Stamp.
 
         File folder = new File(Environment.getExternalStorageDirectory() + "/Nifty Notes");
         boolean success = true;
@@ -169,24 +185,30 @@ public class Hello extends Activity implements View.OnClickListener
         {
             success = folder.mkdir();
         } // End of Creating The Directory.
+
+        // Initializing the button for recording...
+        mRecordButton = new RecordButton(this);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_hello, menu);
         return true;
     }
 
     //user clicked paint
-    public void paintClicked(View view){
+    public void paintClicked(View view)
+    {
         //use chosen color
 
         //set erase false
         drawView.setErase(false);
         drawView.setBrushSize(drawView.getLastBrushSize());
 
-        if(view!=currPaint){
+        if(view!=currPaint)
+        {
             ImageButton imgView = (ImageButton)view;
             String color = view.getTag().toString();
             drawView.setColor(color);
@@ -273,6 +295,27 @@ public class Hello extends Activity implements View.OnClickListener
                 }
             });
             brushDialog.show();
+        }
+
+        else if(view.getId()==R.id.record_btn){
+            //new button
+            AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
+
+
+            if(recordFlag == false)
+            {
+                startRecording();
+                Toast savedToast = Toast.makeText(getApplicationContext(), "Recording Has Started!", Toast.LENGTH_SHORT);
+                savedToast.show();
+                recordFlag = true;
+            }
+            else
+            {
+                stopRecording();
+                Toast savedToast = Toast.makeText(getApplicationContext(), "Recording Has Stopped!", Toast.LENGTH_SHORT);
+                savedToast.show();
+            }
+            newDialog.show();
         }
         else if(view.getId()==R.id.new_btn){
             //new button
